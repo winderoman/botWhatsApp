@@ -27,10 +27,16 @@ const flowAI = addKeyword(EVENTS.ACTION).addAnswer('¡Hola! en que puedo ayudart
 });
 
 const flowVoiceNote = addKeyword(EVENTS.VOICE_NOTE).addAnswer("", null, async (ctx, ctxFn) => {
-    const buffer = await downloadMediaMessage(ctx, "buffer")
-    const bufferBase64 = buffer.toString("base64")
-    const response = await sendMessage.voiceToText(bufferBase64)
-    await ctxFn.flowDynamic(response)
+   try {
+        const buffer = await downloadMediaMessage(ctx, "buffer");
+        const bufferBase64 = buffer.toString("base64");
+        const response = await sendMessage.voiceToText(bufferBase64);
+        await ctxFn.flowDynamic(response);
+    } catch (error) {
+        console.error("Error al procesar el mensaje de voz:", error);
+    }
+
+    
 });
 
 
