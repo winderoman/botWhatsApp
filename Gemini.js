@@ -27,22 +27,32 @@ async function main() {
 }
 
 const voiceToText = async (base64AudioFile) => {
-  let { model } = await main()
-  const voiceResult = await model.generateContent([
-    {
-      inlineData: {
-        mimeType: "audio/ogg",
-        data: base64AudioFile
-      }
-    },
-  ]);
-  return voiceResult.response.text();
+  try {
+    let { model } = await main();
+    const voiceResult = await model.generateContent([
+      {
+        inlineData: {
+          mimeType: "audio/ogg",
+          data: base64AudioFile,
+        },
+      },
+    ]);
+    return voiceResult.response.text();
+  } catch (error) {
+    console.error("Error en voiceToText:", error);
+    throw new Error("No se pudo convertir el audio a texto.");
+  }
 }
 
 async function sendMessage(message) {
-  let { chat } = await main()
-  let result = await chat.sendMessage(message);
-  return result.response.text();
+  ltry {
+    let { chat } = await main();
+    let result = await chat.sendMessage(message);
+    return result.response.text();
+  } catch (error) {
+    console.error("Error en sendMessage:", error);
+    throw new Error("Error al enviar el mensaje.");
+  }
 }
 
 sendMessage.voiceToText = voiceToText;
