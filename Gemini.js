@@ -45,7 +45,7 @@ const voiceToText = async (base64AudioFile) => {
 }
 
 async function sendMessage(message) {
-  ltry {
+  try {
     let { chat } = await main();
     let result = await chat.sendMessage(message);
     return result.response.text();
